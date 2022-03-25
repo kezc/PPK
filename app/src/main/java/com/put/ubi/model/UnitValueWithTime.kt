@@ -1,4 +1,4 @@
-package com.put.ubi
+package com.put.ubi.model
 
 import com.google.gson.annotations.SerializedName
 
