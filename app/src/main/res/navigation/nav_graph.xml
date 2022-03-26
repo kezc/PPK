@@ -10,4 +10,9 @@
         android:name="com.put.ubi.createpassword.CreatePasswordFragment"
         android:label="password_fragment"
         tools:layout="@layout/create_password_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.put.ubi.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" />
 </navigation>

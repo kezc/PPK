@@ -7,4 +7,7 @@
     <string name="create_password">Create password</string>
     <string name="enable_biometrics">Enable biometrics</string>
     <string name="provide_password">Please provide a password with minimum length of 4 characters</string>
+
+    <!-- Login -->
+    <string name="wrong_password">Wrong password</string>
 </resources>
