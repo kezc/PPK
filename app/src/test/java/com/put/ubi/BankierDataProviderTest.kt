@@ -8,6 +8,7 @@ import kotlinx.coroutines.runBlocking
 import org.jsoup.Jsoup
 import org.junit.Assert
 import org.junit.Test
+import java.math.BigDecimal
 
 class BankierDataProviderTest {
 
@@ -20,7 +21,7 @@ class BankierDataProviderTest {
 
             val res = provider.getCurrentValue("bankier.pl/pzu")
 
-            Assert.assertEquals(114.78F, res)
+            Assert.assertEquals(BigDecimal.valueOf(114.78), res)
         }
     }
 
@@ -35,8 +36,8 @@ class BankierDataProviderTest {
 
             Assert.assertEquals(
                 listOf(
-                    UnitValueWithTime(10F, 1576022400000F),
-                    UnitValueWithTime(100F, 1576108800000F)
+                    UnitValueWithTime(BigDecimal.valueOf(10), BigDecimal.valueOf(1576022400000)),
+                    UnitValueWithTime(BigDecimal.valueOf(100), BigDecimal.valueOf(1576108800000))
                 ), res
             )
         }

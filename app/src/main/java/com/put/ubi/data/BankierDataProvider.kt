@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.math.BigDecimal
 
 class BankierService {
     @Suppress("BlockingMethodInNonBlockingContext")
@@ -17,7 +18,7 @@ class BankierService {
 
 class BankierDataProvider(private val bankierService: BankierService, private val gson: Gson) {
 
-    suspend fun getCurrentValue(url: String): Float? {
+    suspend fun getCurrentValue(url: String): BigDecimal? {
         val regex = "[0-9]+,[0-9]+".toRegex()
 
         val document = bankierService.downloadSite(url)
@@ -30,7 +31,7 @@ class BankierDataProvider(private val bankierService: BankierService, private va
         return cell
             ?.let { regex.find(it)?.value }
             ?.replaceFirst(',', '.')
-            ?.toFloat()
+            ?.toBigDecimal()
     }
 
     suspend fun getHistoricalData(url: String): List<UnitValueWithTime>? {
@@ -39,8 +40,8 @@ class BankierDataProvider(private val bankierService: BankierService, private va
         val document = bankierService.downloadSite(url)
         val data = document.getElementsByAttributeValue("id", "wykres").first()?.data()
         val matchedData = data?.let { regex.find(it)?.value }?.removePrefix("dane_nazwa = ")
-        val listType = object : TypeToken<List<UnitValueWithTime>>() {}.type
 
+        val listType = object : TypeToken<List<UnitValueWithTime>>() {}.type
         return gson.fromJson(matchedData, listType)
     }
 }
