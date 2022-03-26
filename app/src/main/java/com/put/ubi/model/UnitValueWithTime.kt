@@ -7,5 +7,5 @@ data class UnitValueWithTime(
     @SerializedName("y")
     val value: BigDecimal,
     @SerializedName("x")
-    val time: BigDecimal,
+    val time: Long,
 )

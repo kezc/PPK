@@ -2,11 +2,11 @@ package com.put.ubi.login
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.put.ubi.PPKApplication
 import com.put.ubi.R
 import com.put.ubi.databinding.LoginFragmentBinding
@@ -33,7 +33,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 launch { viewModel.error.collect(binding.passwordTextInputLayout::setError) }
                 launch {
                     viewModel.success.collect {
-                        Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDashboardFragment())
                     }
                 }
             }

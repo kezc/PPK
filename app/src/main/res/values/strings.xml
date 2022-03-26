@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PPK</string>
 
-    <!--  Create password  -->
+    <!--  Create password / login  -->
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="create_password">Create password</string>
@@ -12,4 +12,8 @@
 
     <!-- Login -->
     <string name="wrong_password">Wrong password</string>
+    <string name="login">Login</string>
+
+    <!--  Dashboard  -->
+    <string name="money_with_currency">%s zł</string>
 </resources>
