@@ -38,11 +38,14 @@ class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
             viewModel.proceed()
         }
 
-        viewModel.passwordError.onEach(binding.passwordTextInputLayout::setError)
+        viewModel.passwordError
+            .onEach(binding.passwordTextInputLayout::setError)
             .launchIn(lifecycleScope)
-        viewModel.confirmPasswordError.onEach(binding.confirmPasswordTextInputLayout::setError)
+        viewModel.confirmPasswordError
+            .onEach(binding.confirmPasswordTextInputLayout::setError)
             .launchIn(lifecycleScope)
-        viewModel.canProceed.onEach(binding.createPasswordButton::setEnabled)
+        viewModel.canProceed
+            .onEach(binding.createPasswordButton::setEnabled)
             .launchIn(lifecycleScope)
         viewModel.success.onEach {
             Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()

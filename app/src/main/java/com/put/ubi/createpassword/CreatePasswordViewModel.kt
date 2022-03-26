@@ -3,6 +3,7 @@ package com.put.ubi.createpassword
 import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.put.ubi.R
 import com.put.ubi.UserPreferences
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -11,8 +12,8 @@ class CreatePasswordViewModel(
     private val resources: Resources,
     private val userPreferences: UserPreferences,
 ) : ViewModel() {
-    private var password = ""
-    private var confirmPassword = ""
+    private var password = MutableStateFlow("")
+    private var confirmPassword  = MutableStateFlow("")
     private val _passwordError = MutableStateFlow("")
     private val _confirmPasswordError = MutableStateFlow("")
     private val _success = MutableSharedFlow<Unit>()
@@ -20,30 +21,30 @@ class CreatePasswordViewModel(
     val passwordError = _passwordError.asStateFlow()
     val confirmPasswordError = _confirmPasswordError.asStateFlow()
     val success = _success.asSharedFlow()
-    val canProceed = combine(_passwordError, _confirmPasswordError) { password, confirmPassword ->
+    val canProceed = combine(password, confirmPassword) { password, confirmPassword ->
         password.length >= 4 && confirmPassword.length >= 4
     }
 
     fun updatePassword(newPassword: String) {
-        password = newPassword
-        _passwordError.value = validatePassword(password)
-        if (validatePassword(confirmPassword).isEmpty()) {
+        password.value = newPassword
+        _passwordError.value = validatePassword(password.value)
+        if (validatePassword(confirmPassword.value).isEmpty()) {
             _confirmPasswordError.value = ""
         }
     }
 
     fun updateConfirmPassword(newConfirmPassword: String) {
-        confirmPassword = newConfirmPassword
-        _confirmPasswordError.value = validatePassword(confirmPassword)
-        if (validatePassword(password).isEmpty()) {
+        confirmPassword.value = newConfirmPassword
+        _confirmPasswordError.value = validatePassword(confirmPassword.value)
+        if (validatePassword(password.value).isEmpty()) {
             _passwordError.value = ""
         }
     }
 
     fun proceed() {
         if (passwordError.value.isNotEmpty() || confirmPasswordError.value.isNotEmpty()) return
-        if (password != confirmPassword) {
-            _confirmPasswordError.value = "Passwords don't match"
+        if (password.value != confirmPassword.value) {
+            _confirmPasswordError.value = resources.getString(R.string.password_dont_match)
             return
         }
 
@@ -51,12 +52,12 @@ class CreatePasswordViewModel(
     }
 
     private fun savePassword() = viewModelScope.launch {
-        userPreferences.setPassword(password)
+        userPreferences.setPassword(password.value)
         _success.emit(Unit)
     }
 
     private fun validatePassword(it: CharSequence) = if (it.isBlank()) {
-        "Field is empty"
+        resources.getString(R.string.field_empty)
     } else {
         ""
     }
