@@ -1,13 +1,19 @@
 package com.put.ubi.extensions
 
-import androidx.appcompat.widget.SwitchCompat
-import kotlinx.coroutines.channels.awaitClose
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 
-fun SwitchCompat.checked(): Flow<Boolean> {
-    return callbackFlow {
-        setOnCheckedChangeListener { _, isChecked -> trySend(isChecked) }
-        awaitClose { setOnClickListener(null) }
+inline fun LifecycleOwner.launchRepeatOnStart(
+    crossinline block: suspend CoroutineScope.() -> Unit
+) {
+    lifecycleScope.launch {
+        this@launchRepeatOnStart.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            block()
+        }
     }
 }

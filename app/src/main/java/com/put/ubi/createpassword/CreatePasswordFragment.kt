@@ -5,13 +5,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.put.ubi.PPKApplication
 import com.put.ubi.R
-import com.put.ubi.UserPreferences
 import com.put.ubi.databinding.CreatePasswordFragmentBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
 
@@ -25,7 +26,7 @@ class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
 
         viewModel = CreatePasswordViewModel(
             resources,
-            UserPreferences(requireContext())
+            (requireActivity().application as PPKApplication).userPreferences
         )
 
         binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
@@ -38,18 +39,30 @@ class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
             viewModel.proceed()
         }
 
-        viewModel.passwordError
-            .onEach(binding.passwordTextInputLayout::setError)
-            .launchIn(lifecycleScope)
-        viewModel.confirmPasswordError
-            .onEach(binding.confirmPasswordTextInputLayout::setError)
-            .launchIn(lifecycleScope)
-        viewModel.canProceed
-            .onEach(binding.createPasswordButton::setEnabled)
-            .launchIn(lifecycleScope)
-        viewModel.success.onEach {
-            Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()
-        }.launchIn(lifecycleScope)
-    }
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.passwordError.collect(
+                        binding.passwordTextInputLayout::setError
+                    )
+                }
+                launch {
+                    viewModel.confirmPasswordError.collect(
+                        binding.confirmPasswordTextInputLayout::setError
+                    )
+                }
+                launch {
+                    viewModel.canProceed.collect(
+                        binding.createPasswordButton::setEnabled
+                    )
+                }
+                launch {
+                    viewModel.success.collect {
+                        Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
 
+        }
+    }
 }

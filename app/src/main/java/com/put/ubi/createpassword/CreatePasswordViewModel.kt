@@ -13,7 +13,7 @@ class CreatePasswordViewModel(
     private val userPreferences: UserPreferences,
 ) : ViewModel() {
     private var password = MutableStateFlow("")
-    private var confirmPassword  = MutableStateFlow("")
+    private var confirmPassword = MutableStateFlow("")
     private val _passwordError = MutableStateFlow("")
     private val _confirmPasswordError = MutableStateFlow("")
     private val _success = MutableSharedFlow<Unit>()

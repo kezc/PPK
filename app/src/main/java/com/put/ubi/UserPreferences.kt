@@ -9,7 +9,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class UserPreferences(val context: Context) {
+class UserPreferences(private val context: Context) {
     private val Context.preferences: DataStore<Preferences> by preferencesDataStore(name = "user")
 
     suspend fun setPassword(password: String) {

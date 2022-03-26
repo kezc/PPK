@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.put.ubi.PPKApplication
 import com.put.ubi.R
-import com.put.ubi.UserPreferences
 import com.put.ubi.databinding.LoginFragmentBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
     private lateinit var viewModel: LoginViewModel
@@ -18,16 +19,24 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = LoginViewModel(resources, UserPreferences(requireContext()))
+        viewModel = LoginViewModel(
+            resources,
+            (requireActivity().application as PPKApplication).userPreferences
+        )
 
         binding.confirmPasswordButton.setOnClickListener {
             viewModel.login(binding.passwordEditText.text.toString())
         }
 
-        viewModel.error.onEach(binding.passwordTextInputLayout::setError)
-            .launchIn(lifecycleScope)
-        viewModel.success.onEach {
-            Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()
-        }.launchIn(lifecycleScope)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.error.collect(binding.passwordTextInputLayout::setError) }
+                launch {
+                    viewModel.success.collect {
+                        Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 }
