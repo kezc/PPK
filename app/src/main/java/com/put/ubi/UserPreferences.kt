@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.put.ubi.util.sha512
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -14,7 +15,7 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setPassword(password: String) {
         context.preferences.edit {
-            it[PASSWORD] = password
+            it[PASSWORD] = sha512(password)
         }
     }
 

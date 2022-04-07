@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.put.ubi.R
 import com.put.ubi.UserPreferences
+import com.put.ubi.util.sha512
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     private val resources: Resources,
@@ -21,8 +24,11 @@ class LoginViewModel(
     val error = _error.asStateFlow()
 
     fun login(enteredPassword: String) = viewModelScope.launch {
+        val hash = withContext(Dispatchers.IO) {
+            sha512(enteredPassword)
+        }
         val password = userPreferences.getPassword()
-        if (enteredPassword == password) {
+        if (hash == password) {
             _success.emit(Unit)
         } else {
             _error.value = resources.getString(R.string.wrong_password)
