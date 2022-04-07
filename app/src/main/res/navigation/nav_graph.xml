@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_fundsFragment"
+            app:destination="@id/fundsFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -36,4 +39,9 @@
         android:name="com.put.ubi.dashboard.DashboardFragment"
         android:label="dashboard_fragment"
         tools:layout="@layout/dashboard_fragment" />
+    <fragment
+        android:id="@+id/fundsFragment"
+        android:name="com.put.ubi.fundslist.FundsFragment"
+        android:label="fragment_funds"
+        tools:layout="@layout/fragment_funds" />
 </navigation>
