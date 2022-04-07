@@ -38,10 +38,22 @@
         android:id="@+id/dashboardFragment"
         android:name="com.put.ubi.dashboard.DashboardFragment"
         android:label="dashboard_fragment"
-        tools:layout="@layout/dashboard_fragment" />
+        tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/fundsFragment"
         android:name="com.put.ubi.fundslist.FundsFragment"
         android:label="fragment_funds"
-        tools:layout="@layout/fragment_funds" />
+        tools:layout="@layout/fragment_funds" >
+        <action
+            android:id="@+id/action_fundsFragment_to_fundDetailsFragment"
+            app:destination="@id/fundDetailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/fundDetailsFragment"
+        android:name="com.put.ubi.funddetail.FundDetailsFragment"
+        android:label="FundDetailsFragment" >
+        <argument
+            android:name="fund"
+            app:argType="com.put.ubi.model.Fund" />
+    </dialog>
 </navigation>

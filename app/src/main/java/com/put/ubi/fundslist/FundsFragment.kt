@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.put.ubi.R
 import com.put.ubi.data.FundsProvider
@@ -20,7 +21,13 @@ class FundsFragment : Fragment(R.layout.fragment_funds) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = FundsViewModel(FundsProvider())
-        val fundsListAdapter = FundsListAdapter()
+        val fundsListAdapter = FundsListAdapter {
+            findNavController().navigate(
+                FundsFragmentDirections.actionFundsFragmentToFundDetailsFragment(
+                    it
+                )
+            )
+        }
 
         binding.fundsList.apply {
             layoutManager = LinearLayoutManager(requireContext())

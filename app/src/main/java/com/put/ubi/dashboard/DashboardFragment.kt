@@ -14,7 +14,7 @@ import com.google.gson.Gson
 import com.put.ubi.BankierDataProvider
 import com.put.ubi.BankierService
 import com.put.ubi.R
-import com.put.ubi.databinding.DashboardFragmentBinding
+import com.put.ubi.databinding.FragmentDashboardBinding
 import com.put.ubi.extensions.getDate
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
@@ -24,10 +24,10 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 
-class DashboardFragment : Fragment(R.layout.dashboard_fragment) {
+class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private lateinit var viewModel: DashboardViewModel
-    private val binding by viewBinding(DashboardFragmentBinding::bind)
+    private val binding by viewBinding(FragmentDashboardBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
