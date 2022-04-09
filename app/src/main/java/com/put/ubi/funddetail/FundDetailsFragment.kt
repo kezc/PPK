@@ -15,6 +15,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.gson.Gson
 import com.put.ubi.BankierDataProvider
 import com.put.ubi.BankierService
+import com.put.ubi.PPKApplication
 import com.put.ubi.R
 import com.put.ubi.databinding.FragmentFundDetailBinding
 import com.put.ubi.extensions.getDate
@@ -29,7 +30,11 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = FundDetailViewModel(args.fund, BankierDataProvider(BankierService(), Gson()))
+        viewModel = FundDetailViewModel(
+            (requireActivity().application as PPKApplication).userPreferences,
+            args.fund,
+            BankierDataProvider(BankierService(), Gson()),
+        )
 
         dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -37,6 +42,7 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
         )
 
         binding.fundName.text = args.fund.name
+        binding.select.setOnClickListener { viewModel.saveFund(); dismiss() }
         binding.cancel.setOnClickListener { dismiss() }
 
         lifecycleScope.launch {
