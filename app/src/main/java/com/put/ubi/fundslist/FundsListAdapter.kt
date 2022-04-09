@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.put.ubi.databinding.ItemFundBinding
 import com.put.ubi.model.Fund
 
@@ -26,6 +27,9 @@ class FundsListAdapter(private val onClickListener: (Fund) -> Unit) :
         fun bind(fund: Fund) {
             binding.name.text = fund.name
             binding.root.setOnClickListener { onClickListener(fund) }
+            Glide.with(binding.image)
+                .load(fund.thumbnail)
+                .into(binding.image)
         }
     }
 
