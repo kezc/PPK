@@ -1,6 +1,8 @@
 package com.put.ubi
 
 import com.google.gson.Gson
+import com.put.ubi.data.BankierDataProvider
+import com.put.ubi.data.BankierService
 import com.put.ubi.model.UnitValueWithTime
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -36,8 +38,8 @@ class BankierDataProviderTest {
 
             Assert.assertEquals(
                 listOf(
-                    UnitValueWithTime(BigDecimal.valueOf(10), BigDecimal.valueOf(1576022400000)),
-                    UnitValueWithTime(BigDecimal.valueOf(100), BigDecimal.valueOf(1576108800000))
+                    UnitValueWithTime(BigDecimal.valueOf(10), 1576022400000),
+                    UnitValueWithTime(BigDecimal.valueOf(100), 1576108800000)
                 ), res
             )
         }

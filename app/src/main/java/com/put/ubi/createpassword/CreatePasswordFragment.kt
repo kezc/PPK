@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,22 +13,18 @@ import com.put.ubi.PPKApplication
 import com.put.ubi.R
 import com.put.ubi.databinding.CreatePasswordFragmentBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
 
     private val binding by viewBinding(CreatePasswordFragmentBinding::bind)
 
-    //    private val viewModel: CreatePasswordViewModel by viewModels()
-    private lateinit var viewModel: CreatePasswordViewModel
+    private val viewModel: CreatePasswordViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = CreatePasswordViewModel(
-            resources,
-            (requireActivity().application as PPKApplication).userPreferences
-        )
 
         binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
             viewModel.updatePassword(text.toString())

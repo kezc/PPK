@@ -9,10 +9,17 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.put.ubi.data.FundsProvider
 import com.put.ubi.model.Fund
 import com.put.ubi.util.sha512
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserPreferences(private val context: Context, private val fundsProvider: FundsProvider) {
+@Singleton
+class UserPreferences @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val fundsProvider: FundsProvider
+) {
     private val Context.preferences: DataStore<Preferences> by preferencesDataStore(name = "user")
 
     suspend fun setPassword(password: String) {

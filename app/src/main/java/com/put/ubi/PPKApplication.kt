@@ -2,7 +2,7 @@ package com.put.ubi
 
 import android.app.Application
 import com.put.ubi.data.FundsProvider
+import dagger.hilt.android.HiltAndroidApp
 
-class PPKApplication : Application() {
-    val userPreferences = UserPreferences(this, FundsProvider()) // please use DI framework </3
-}
+@HiltAndroidApp
+class PPKApplication : Application()

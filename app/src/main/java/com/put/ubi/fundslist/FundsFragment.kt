@@ -12,8 +12,10 @@ import com.put.ubi.R
 import com.put.ubi.data.FundsProvider
 import com.put.ubi.databinding.FragmentFundsBinding
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FundsFragment : Fragment(R.layout.fragment_funds) {
     private val binding by viewBinding(FragmentFundsBinding::bind)
     private lateinit var viewModel: FundsViewModel

@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.put.ubi.R
 import com.put.ubi.UserPreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CreatePasswordViewModel(
+@HiltViewModel
+class CreatePasswordViewModel @Inject constructor(
     private val resources: Resources,
     private val userPreferences: UserPreferences,
 ) : ViewModel() {

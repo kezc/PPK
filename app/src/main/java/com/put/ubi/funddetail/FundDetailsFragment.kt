@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,29 +13,27 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.gson.Gson
-import com.put.ubi.BankierDataProvider
-import com.put.ubi.BankierService
-import com.put.ubi.PPKApplication
 import com.put.ubi.R
 import com.put.ubi.databinding.FragmentFundDetailBinding
 import com.put.ubi.extensions.getDate
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
-    private lateinit var viewModel: FundDetailViewModel
+    @Inject
+    lateinit var fundDetailViewModelFactory: FundDetailViewModelFactory
+    private val viewModel: FundDetailViewModel by viewModels {
+        FundDetailViewModel.provideFactory(fundDetailViewModelFactory, args.fund)
+    }
     private val binding by viewBinding(FragmentFundDetailBinding::bind)
     private val args by navArgs<FundDetailsFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = FundDetailViewModel(
-            (requireActivity().application as PPKApplication).userPreferences,
-            args.fund,
-            BankierDataProvider(BankierService(), Gson()),
-        )
 
         dialog?.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,

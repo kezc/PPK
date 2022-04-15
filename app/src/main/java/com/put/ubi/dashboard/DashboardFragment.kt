@@ -11,19 +11,20 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.gson.Gson
-import com.put.ubi.BankierDataProvider
-import com.put.ubi.BankierService
+import com.put.ubi.data.BankierDataProvider
+import com.put.ubi.data.BankierService
 import com.put.ubi.R
 import com.put.ubi.databinding.FragmentDashboardBinding
 import com.put.ubi.extensions.getDate
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
-
+@AndroidEntryPoint
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private lateinit var viewModel: DashboardViewModel

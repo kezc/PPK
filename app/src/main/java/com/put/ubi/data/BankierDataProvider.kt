@@ -1,4 +1,4 @@
-package com.put.ubi
+package com.put.ubi.data
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -8,16 +8,21 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.math.BigDecimal
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BankierService {
+class BankierService @Inject constructor() {
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun downloadSite(url: String): Document = withContext(Dispatchers.IO) {
         Jsoup.connect(url).get()
     }
 }
 
-class BankierDataProvider(private val bankierService: BankierService, private val gson: Gson) {
-
+@Singleton
+class BankierDataProvider @Inject constructor(
+    private val bankierService: BankierService,
+    private val gson: Gson
+) {
     suspend fun getCurrentValue(url: String): BigDecimal? {
         val regex = "[0-9]+,[0-9]+".toRegex()
 

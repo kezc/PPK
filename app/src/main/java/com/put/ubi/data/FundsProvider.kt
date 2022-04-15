@@ -1,8 +1,9 @@
 package com.put.ubi.data
 
 import com.put.ubi.model.Fund
+import javax.inject.Inject
 
-class FundsProvider {
+class FundsProvider @Inject constructor() {
     fun getFunds(): List<Fund> {
         return listOf(
             Fund(

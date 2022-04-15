@@ -2,15 +2,18 @@ package com.put.ubi.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.put.ubi.BankierDataProvider
+import com.put.ubi.data.BankierDataProvider
 import com.put.ubi.model.UnitValueWithTime
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import javax.inject.Inject
 
-class DashboardViewModel(
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
     bankierDataProvider: BankierDataProvider
 ) : ViewModel() {
     private val _historicalPrices = MutableStateFlow(listOf<UnitValueWithTime>())
