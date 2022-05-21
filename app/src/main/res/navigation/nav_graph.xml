@@ -55,5 +55,8 @@
         <argument
             android:name="fund"
             app:argType="com.put.ubi.model.Fund" />
+        <action
+            android:id="@+id/action_fundDetailsFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </dialog>
 </navigation>

@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.put.ubi.R
 import com.put.ubi.databinding.FragmentFundDetailBinding
 import com.put.ubi.extensions.getDate
+import com.put.ubi.fundslist.FundsFragmentDirections
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +43,7 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
         )
 
         binding.fundName.text = args.fund.name
-        binding.select.setOnClickListener { viewModel.saveFund(); dismiss() }
+        binding.select.setOnClickListener { viewModel.saveFund() }
         binding.cancel.setOnClickListener { dismiss() }
 
         lifecycleScope.launch {
@@ -49,6 +51,13 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
                 launch {
                     viewModel.historicalPrices.collect { values ->
                         drawChart(values)
+                    }
+                }
+                launch {
+                    viewModel.success.collect {
+                        requireParentFragment().findNavController().navigate(
+                            FundDetailsFragmentDirections.actionFundDetailsFragmentToDashboardFragment()
+                        )
                     }
                 }
             }

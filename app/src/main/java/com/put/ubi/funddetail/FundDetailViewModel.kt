@@ -10,8 +10,9 @@ import com.put.ubi.model.UnitValueWithTime
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,9 @@ class FundDetailViewModel @AssistedInject constructor(
     private val _historicalPrices = MutableStateFlow(listOf<UnitValueWithTime>())
     val historicalPrices = _historicalPrices.asStateFlow()
 
+    private val _success = MutableSharedFlow<Unit>()
+    val success = _success.asSharedFlow()
+
     init {
         viewModelScope.launch {
             bankierDataProvider
@@ -33,6 +37,7 @@ class FundDetailViewModel @AssistedInject constructor(
 
     fun saveFund() = viewModelScope.launch {
         userPreferences.setFund(fund)
+        _success.emit(Unit)
     }
 
     companion object {
