@@ -85,7 +85,8 @@ class AddPaymentFragment : Fragment(R.layout.fragment_add_payment) {
                 }
                 launch {
                     viewModel.unitValue.collect {
-                        binding.unitValue.text = getString(R.string.add_payment_unit_value, it.toString())
+                        binding.unitValue.text =
+                            getString(R.string.add_payment_unit_value, it.toString())
                     }
                 }
                 launch {
@@ -151,15 +152,15 @@ class AddPaymentFragment : Fragment(R.layout.fragment_add_payment) {
                         binding.error.isVisible = it
                     }
                 }
-            }
-            launch {
-                viewModel.loading.collect {
-                    binding.loading.isVisible = it
+                launch {
+                    viewModel.loading.collect {
+                        binding.loading.isVisible = it
+                    }
                 }
-            }
-            launch {
-                viewModel.success.collect {
-                    findNavController().popBackStack()
+                launch {
+                    viewModel.success.collect {
+                        findNavController().popBackStack()
+                    }
                 }
             }
         }

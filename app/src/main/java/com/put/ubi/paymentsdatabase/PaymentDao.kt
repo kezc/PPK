@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.put.ubi.model.Payment
+import com.put.ubi.model.PaymentSource
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -12,5 +13,8 @@ interface PaymentDao {
     suspend fun insert(payment: Payment)
 
     @Query("SELECT * FROM payment")
-    fun getAll(): Flow<List<Payment>>
+    suspend fun getAll(): List<Payment>
+
+    @Query("SELECT * FROM payment WHERE source = :paymentSource")
+    suspend fun getAllByPaymentSource(paymentSource: PaymentSource): List<Payment>
 }

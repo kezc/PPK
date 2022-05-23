@@ -68,6 +68,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             getString(R.string.money_with_currency, formatMoney(payments))
                     }
                 }
+                launch {
+                    viewModel.value.collect { payments ->
+                        binding.balanceAmount.text =
+                            getString(R.string.money_with_currency, formatMoney(payments))
+                    }
+                }
             }
         }
     }
