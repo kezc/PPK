@@ -2,7 +2,7 @@ package com.put.ubi.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.put.ubi.data.BankierDataProvider
+import com.put.ubi.data.FundsRepository
 import com.put.ubi.model.UnitValueWithTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    bankierDataProvider: BankierDataProvider
+    fundsRepository: FundsRepository
 ) : ViewModel() {
     private val _historicalPrices = MutableStateFlow(listOf<UnitValueWithTime>())
     val historicalPrices = _historicalPrices.asStateFlow()
@@ -35,9 +35,10 @@ class DashboardViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            bankierDataProvider
-                .getHistoricalData("https://www.bankier.pl/fundusze/notowania/PZU55")
-                ?.let { _historicalPrices.value = it }
+            fundsRepository
+                .getHistoricalDataForUrl("https://www.bankier.pl/fundusze/notowania/PZU55")
+                .onSuccess { _historicalPrices.value = it }
+                .onFailure { /* TODO - HANDLE FAILURE */ }
         }
     }
 }

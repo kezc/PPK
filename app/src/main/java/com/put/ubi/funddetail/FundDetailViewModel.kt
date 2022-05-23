@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.put.ubi.UserPreferences
 import com.put.ubi.data.BankierDataProvider
+import com.put.ubi.data.FundsRepository
 import com.put.ubi.model.Fund
 import com.put.ubi.model.UnitValueWithTime
 import dagger.assisted.Assisted
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FundDetailViewModel @AssistedInject constructor(
-    bankierDataProvider: BankierDataProvider,
+    fundsRepository: FundsRepository,
     private val userPreferences: UserPreferences,
     @Assisted private val fund: Fund,
 ) : ViewModel() {
@@ -29,9 +30,10 @@ class FundDetailViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            bankierDataProvider
-                .getHistoricalData(fund.bankierURL)
-                ?.let { _historicalPrices.value = it }
+            fundsRepository
+                .getHistoricalDataForUrl(fund.bankierURL)
+                .onSuccess { _historicalPrices.value = it }
+                .onFailure { /* TODO - HANDLE FAILURE */ }
         }
     }
 

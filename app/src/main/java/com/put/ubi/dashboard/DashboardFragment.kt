@@ -3,17 +3,17 @@ package com.put.ubi.dashboard
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.gson.Gson
-import com.put.ubi.data.BankierDataProvider
-import com.put.ubi.data.BankierService
 import com.put.ubi.R
+import com.put.ubi.addpayment.AddPaymentType
 import com.put.ubi.databinding.FragmentDashboardBinding
 import com.put.ubi.extensions.getDate
 import com.put.ubi.model.UnitValueWithTime
@@ -27,12 +27,15 @@ import java.text.DecimalFormatSymbols
 @AndroidEntryPoint
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
-    private lateinit var viewModel: DashboardViewModel
+    private val viewModel: DashboardViewModel by viewModels()
     private val binding by viewBinding(FragmentDashboardBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = DashboardViewModel(BankierDataProvider(BankierService(), Gson()))
+
+        binding.addFab.setOnClickListener {
+            findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(AddPaymentType.Personal))
+        }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

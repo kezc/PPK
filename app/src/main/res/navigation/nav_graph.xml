@@ -38,7 +38,11 @@
         android:id="@+id/dashboardFragment"
         android:name="com.put.ubi.dashboard.DashboardFragment"
         android:label="dashboard_fragment"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_addPaymentFragment"
+            app:destination="@id/addPaymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/fundsFragment"
         android:name="com.put.ubi.fundslist.FundsFragment"
@@ -59,4 +63,13 @@
             android:id="@+id/action_fundDetailsFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/addPaymentFragment"
+        android:name="com.put.ubi.addpayment.AddPaymentFragment"
+        android:label="fragment_add_payment"
+        tools:layout="@layout/fragment_add_payment" >
+        <argument
+            android:name="type"
+            app:argType="com.put.ubi.addpayment.AddPaymentType" />
+    </fragment>
 </navigation>
