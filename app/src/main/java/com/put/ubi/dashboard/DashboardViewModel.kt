@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.put.ubi.data.FundsRepository
 import com.put.ubi.inflation.InflationProvider
 import com.put.ubi.inflation.calculateCurrentValue
+import com.put.ubi.model.Payment
 import com.put.ubi.model.PaymentSource
 import com.put.ubi.model.UnitValueWithTime
 import com.put.ubi.paymentsdatabase.PaymentDao
@@ -24,8 +25,13 @@ class DashboardViewModel @Inject constructor(
     paymentDao: PaymentDao
 ) : ViewModel() {
 
-    private val _historicalPrices = MutableStateFlow(listOf<UnitValueWithTime>())
-    val historicalPrices = _historicalPrices.asStateFlow()
+    private val historicalPrices = MutableStateFlow(listOf<UnitValueWithTime>())
+
+    private val valueOverTime = MutableStateFlow(listOf<BigDecimal>())
+
+    val chartData = combine(historicalPrices, valueOverTime) {historicalPrices, valueOverTime ->
+            historicalPrices to valueOverTime
+    }
 
     private val _ownPayments = MutableStateFlow<BigDecimal>(BigDecimal.ZERO)
     val ownPayments = _ownPayments.asStateFlow()
@@ -71,25 +77,36 @@ class DashboardViewModel @Inject constructor(
             _ownPayments.value = ownPayments.sumOf { it.value }
             _countryPayments.value = countryPayments.sumOf { it.value }
             _employerPayments.value = employerPayments.sumOf { it.value }
+            val allPayments =
+                (ownPayments + countryPayments + employerPayments).sortedBy { it.date.time }
 
-            stockSize.value = ownPayments.sumOf { it.stockSize } +
-                    countryPayments.sumOf { it.stockSize } +
-                    employerPayments.sumOf { it.stockSize }
+            stockSize.value = allPayments.sumOf { it.stockSize }
 
             val data = dataDeferred.await()
-            data.onSuccess { _historicalPrices.value = it }
+            data.onSuccess { list ->
+                historicalPrices.value = list
+                valueOverTime.value = list.map { unitValueWithTime ->
+                    allPayments
+                        .takeWhile { it.date.time < unitValueWithTime.time }
+                        .sumOf { it.stockSize }
+                        .multiply(unitValueWithTime.value)
+                }
+            }
                 .onFailure { /* TODO - HANDLE FAILURE */ }
 
             val inflation = inflationDeferred.await()
-            inflation.onSuccess { inflationArray ->
-                _inflationValue.value = (ownPayments + countryPayments + employerPayments).map {
-                    calculateCurrentValue(it.value, inflationArray, it.date)
-                }.sumOf { it }
-            }
-                .onFailure {  }
-
-
-
+            calculateInflation(inflation, allPayments)
         }
+    }
+
+    private fun calculateInflation(
+        inflation: Result<Array<Array<Float>>>,
+        allPayments: List<Payment>,
+    ) {
+        inflation.onSuccess { inflationArray ->
+            _inflationValue.value = allPayments.map {
+                calculateCurrentValue(it.value, inflationArray, it.date)
+            }.sumOf { it }
+        }.onFailure { }
     }
 }

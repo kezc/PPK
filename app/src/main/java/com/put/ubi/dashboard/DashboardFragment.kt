@@ -1,13 +1,16 @@
 package com.put.ubi.dashboard
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -40,8 +43,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.historicalPrices.collect { values ->
-                        drawChart(values)
+                    viewModel.chartData.collect { (historicalData, valueOverTime) ->
+                        drawChart(historicalData, valueOverTime)
                     }
                 }
                 launch {
@@ -92,12 +95,23 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         return DecimalFormat("#,##0.00", decimalFormatSymbols).format(payments)
     }
 
-    private fun drawChart(values: List<UnitValueWithTime>) {
-        val entries = values.map {
+    private fun drawChart(values: List<UnitValueWithTime>, valueOverTime: List<BigDecimal>) {
+        val historicalEntries = values.map {
             Entry(it.time.toFloat(), it.value.toFloat())
         }
-        val dataSet = LineDataSet(entries, "Label")
-        val lineData = LineData(dataSet)
+        val overTimeEntries = valueOverTime.zip(values).map { (value, unitValueWithTime) ->
+            Entry(unitValueWithTime.time.toFloat(), value.toFloat())
+
+        }
+         val historicalDataSet = LineDataSet(historicalEntries, "Stock value").apply {
+             axisDependency = YAxis.AxisDependency.LEFT
+             color = Color.RED
+             colors = valueOverTime.map { Color.RED }
+         }
+         val overTimeDataSet = LineDataSet(overTimeEntries, "Value").apply {
+             axisDependency = YAxis.AxisDependency.RIGHT
+         }
+        val lineData = LineData(historicalDataSet, overTimeDataSet)
         binding.chart.apply {
             data = lineData
             xAxis.labelCount = 5
