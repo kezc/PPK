@@ -74,6 +74,12 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             getString(R.string.money_with_currency, formatMoney(payments))
                     }
                 }
+                launch {
+                    viewModel.inflationValue.collect { payments ->
+                        binding.inflationAmount.text =
+                            getString(R.string.money_with_currency, formatMoney(payments))
+                    }
+                }
             }
         }
     }

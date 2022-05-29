@@ -3,6 +3,8 @@ package com.put.ubi.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.put.ubi.data.FundsRepository
+import com.put.ubi.inflation.InflationProvider
+import com.put.ubi.inflation.calculateCurrentValue
 import com.put.ubi.model.PaymentSource
 import com.put.ubi.model.UnitValueWithTime
 import com.put.ubi.paymentsdatabase.PaymentDao
@@ -11,12 +13,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     fundsRepository: FundsRepository,
+    inflationProvider: InflationProvider,
     paymentDao: PaymentDao
 ) : ViewModel() {
 
@@ -50,6 +54,9 @@ class DashboardViewModel @Inject constructor(
             val dataDeferred = async(Dispatchers.IO) {
                 fundsRepository.getHistoricalDataForCurrentUser()
             }
+            val inflationDeferred = async(Dispatchers.IO) {
+                inflationProvider.getInflation()
+            }
             val ownPaymentsListDeferred =
                 async(Dispatchers.IO) { paymentDao.getAllByPaymentSource(PaymentSource.INDIVIDUAL) }
             val countryPaymentsListDeferred =
@@ -57,7 +64,6 @@ class DashboardViewModel @Inject constructor(
             val companyPaymentsListDeferred =
                 async(Dispatchers.IO) { paymentDao.getAllByPaymentSource(PaymentSource.COMPANY) }
 
-            val data = dataDeferred.await()
             val ownPayments = ownPaymentsListDeferred.await()
             val countryPayments = countryPaymentsListDeferred.await()
             val employerPayments = companyPaymentsListDeferred.await()
@@ -70,8 +76,19 @@ class DashboardViewModel @Inject constructor(
                     countryPayments.sumOf { it.stockSize } +
                     employerPayments.sumOf { it.stockSize }
 
+            val data = dataDeferred.await()
             data.onSuccess { _historicalPrices.value = it }
                 .onFailure { /* TODO - HANDLE FAILURE */ }
+
+            val inflation = inflationDeferred.await()
+            inflation.onSuccess { inflationArray ->
+                _inflationValue.value = (ownPayments + countryPayments + employerPayments).map {
+                    calculateCurrentValue(it.value, inflationArray, it.date)
+                }.sumOf { it }
+            }
+                .onFailure {  }
+
+
 
         }
     }
