@@ -95,7 +95,7 @@ class AddPaymentViewModel @AssistedInject constructor(
                             paymentDao.insert(
                                 Payment(
                                     value = checkNotNull(employeePaymentValue),
-                                    stockSize = unitValue.value / employeePaymentValue,
+                                    stockSize = employeePaymentValue.divide(unitValue.value, MathContext(8)),
                                     source = PaymentSource.INDIVIDUAL,
                                     date = checkNotNull(date)
                                 )
@@ -105,7 +105,7 @@ class AddPaymentViewModel @AssistedInject constructor(
                             paymentDao.insert(
                                 Payment(
                                     value = checkNotNull(employerPaymentValue),
-                                    stockSize = unitValue.value / employerPaymentValue,
+                                    stockSize = employerPaymentValue.divide(unitValue.value, MathContext(8)),
                                     source = PaymentSource.COMPANY,
                                     date = checkNotNull(date)
                                 )
@@ -130,7 +130,7 @@ class AddPaymentViewModel @AssistedInject constructor(
                             paymentDao.insert(
                                 Payment(
                                     value = checkNotNull(countryPaymentValue),
-                                    stockSize = unitValue.value / countryPaymentValue,
+                                    stockSize = countryPaymentValue.divide(unitValue.value, MathContext(8)),
                                     source = PaymentSource.COUNTRY,
                                     date = checkNotNull(date)
                                 )
