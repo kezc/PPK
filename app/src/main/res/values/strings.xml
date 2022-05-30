@@ -21,6 +21,8 @@
     <!-- Add payment  -->
     <string name="add_payment_provide_correct_value">Please provide correct value</string>
     <string name="add_payment_unit_value">Unit value %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

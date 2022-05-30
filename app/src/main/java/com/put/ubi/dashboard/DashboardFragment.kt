@@ -2,8 +2,10 @@ package com.put.ubi.dashboard
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +17,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.put.ubi.R
 import com.put.ubi.addpayment.AddPaymentType
 import com.put.ubi.databinding.FragmentDashboardBinding
@@ -27,6 +30,7 @@ import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
+
 @AndroidEntryPoint
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
@@ -35,6 +39,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         binding.addFab.setOnClickListener {
             findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(AddPaymentType.Personal))
@@ -105,11 +110,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
          val historicalDataSet = LineDataSet(historicalEntries, "Stock value").apply {
              axisDependency = YAxis.AxisDependency.LEFT
-             color = Color.RED
-             colors = valueOverTime.map { Color.RED }
+             setDrawValues(false)
+             lineWidth = 1.5f
+             isHighlightEnabled = true
+             setDrawHighlightIndicators(false)
+             setDrawCircles(false)
          }
          val overTimeDataSet = LineDataSet(overTimeEntries, "Value").apply {
              axisDependency = YAxis.AxisDependency.RIGHT
+             setColors(ColorTemplate.MATERIAL_COLORS, 1)
+             color = Color.RED
+             setDrawValues(false)
+             lineWidth = 1.5f
+             isHighlightEnabled = true
+             setDrawHighlightIndicators(false)
+             setDrawCircles(false)
          }
         val lineData = LineData(historicalDataSet, overTimeDataSet)
         binding.chart.apply {
@@ -121,6 +136,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             }
             invalidate()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.dashboard_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.settings -> {
+                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

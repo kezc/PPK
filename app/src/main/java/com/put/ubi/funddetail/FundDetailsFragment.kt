@@ -69,7 +69,13 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
         val entries = values.map {
             Entry(it.time.toFloat(), it.value.toFloat())
         }
-        val dataSet = LineDataSet(entries, "Label")
+        val dataSet = LineDataSet(entries, "Historial values").apply {
+            setDrawValues(false)
+            lineWidth = 1.5f
+            isHighlightEnabled = true
+            setDrawHighlightIndicators(false)
+            setDrawCircles(false)
+        }
         val lineData = LineData(dataSet)
         binding.chart.apply {
             data = lineData
