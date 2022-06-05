@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_importFragment"
+            app:destination="@id/importFragment" />
     </fragment>
     <fragment
         android:id="@+id/fundsFragment"
@@ -85,4 +88,13 @@
         android:name="com.put.ubi.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/importFragment"
+        android:name="com.put.ubi.import.ImportFragment"
+        android:label="fragment_import"
+        tools:layout="@layout/fragment_import" >
+        <action
+            android:id="@+id/action_importFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 </navigation>

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.put.ubi.UserPreferences
-import com.put.ubi.backup.AllUserData
+import com.put.ubi.model.AllUserData
 import com.put.ubi.paymentsdatabase.PaymentDao
 import com.put.ubi.util.FileHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,7 +39,7 @@ class ExportViewModel @Inject constructor(
     fun exportData() {
         viewModelScope.launch {
             _loading.value = true
-            val chosenFund = async(Dispatchers.IO) { userPreferences.getFund()?.id }
+            val chosenFund = async(Dispatchers.IO) { userPreferences.getFund() }
             val payments = async(Dispatchers.IO) { paymentDao.getAll() }
             val json = gson.toJson(AllUserData(chosenFund.await(), payments.await()))
             try {

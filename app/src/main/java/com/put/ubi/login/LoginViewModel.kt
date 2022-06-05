@@ -23,8 +23,8 @@ class LoginViewModel @Inject constructor(
     private val userPreferences: UserPreferences,
 ) : ViewModel() {
     private val _success = MutableSharedFlow<Unit>()
-    private val _error = MutableStateFlow("")
     val success = _success.asSharedFlow()
+    private val _error = MutableStateFlow("")
     val error = _error.asStateFlow()
 
     fun login(enteredPassword: String) = viewModelScope.launch {

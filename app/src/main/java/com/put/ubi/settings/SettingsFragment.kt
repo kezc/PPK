@@ -1,12 +1,12 @@
 package com.put.ubi.settings
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +17,7 @@ import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val exportViewModel: ExportViewModel by viewModels()
@@ -25,9 +26,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       binding.exportDataButton.setOnClickListener {
-           exportViewModel.exportData()
-       }
+        binding.exportDataButton.setOnClickListener {
+            exportViewModel.exportData()
+        }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -42,7 +43,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                             type = "*/*"
                             putExtra(Intent.EXTRA_STREAM, uri)
                         }
-                        startActivity(Intent.createChooser(sharingIntent, "Share using"))
+                        val chooser = Intent.createChooser(sharingIntent, "Share using")
+
+                        val resInfoList = requireActivity().packageManager
+                            .queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+
+                        for (resolveInfo in resInfoList) {
+                            val packageName = resolveInfo.activityInfo.packageName
+                            requireActivity().grantUriPermission(
+                                packageName,
+                                uri,
+                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            )
+                        }
+
+                        startActivity(chooser)
                     }
                 }
             }
