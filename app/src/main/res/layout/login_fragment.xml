@@ -24,22 +24,37 @@
             android:layout_height="wrap_content"
             android:text="Please login" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_text_input_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/password"
-            app:endIconMode="password_toggle"
-            app:errorEnabled="true">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/password_edit_text"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_text_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/biometrics_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                app:icon="@drawable/ic_baseline_fingerprint_24"
+                app:iconGravity="textEnd" />
+        </LinearLayout>
 
         <View
             android:layout_width="0dp"

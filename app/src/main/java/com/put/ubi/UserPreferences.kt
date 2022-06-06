@@ -3,6 +3,7 @@ package com.put.ubi
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -42,8 +43,18 @@ class UserPreferences @Inject constructor(
             .first()
     }
 
+    suspend fun setBiometrics(enable: Boolean) {
+        context.preferences.edit {
+            it[BIOMETRICS] = enable
+        }
+    }
+
+    suspend fun getBiometrics(): Boolean {
+        return context.preferences.data.map { it[BIOMETRICS] }.first() ?: false
+    }
     companion object {
         val PASSWORD = stringPreferencesKey("PASSWORD")
         val FUND = stringPreferencesKey("FUND")
+        val BIOMETRICS = booleanPreferencesKey("BIOMETRICS")
     }
 }

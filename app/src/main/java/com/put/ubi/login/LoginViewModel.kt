@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.put.ubi.R
 import com.put.ubi.UserPreferences
+import com.put.ubi.biometrics.BiometricHelper
 import com.put.ubi.util.sha512
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,14 +19,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-//class LoginViewModel constructor(
     private val resources: Resources,
     private val userPreferences: UserPreferences,
+    private val biometricHelper: BiometricHelper
 ) : ViewModel() {
     private val _success = MutableSharedFlow<Unit>()
     val success = _success.asSharedFlow()
-    private val _error = MutableStateFlow("")
-    val error = _error.asStateFlow()
+    private val _passwordError = MutableStateFlow("")
+    val passwordError = _passwordError.asStateFlow()
+    val showBiometricsDialog = MutableSharedFlow<Unit>()
+    val showBiometricsError = MutableSharedFlow<BiometricHelper.Status>()
+    val showBiometricsButton = MutableStateFlow(false)
+
+    init {
+        viewModelScope.launch {
+            val areBiometricsEnabled = userPreferences.getBiometrics()
+            showBiometricsButton.value = areBiometricsEnabled
+            if (!areBiometricsEnabled) return@launch
+            when (val areBiometricsAvailable = biometricHelper.getStatus()) {
+                BiometricHelper.Status.AVAILABLE -> showBiometricsDialog.emit(Unit)
+                else -> showBiometricsError.emit(areBiometricsAvailable)
+            }
+        }
+    }
 
     fun login(enteredPassword: String) = viewModelScope.launch {
         val hash = withContext(Dispatchers.IO) {
@@ -35,7 +51,11 @@ class LoginViewModel @Inject constructor(
         if (hash == password) {
             _success.emit(Unit)
         } else {
-            _error.value = resources.getString(R.string.wrong_password)
+            _passwordError.value = resources.getString(R.string.wrong_password)
         }
+    }
+
+    fun biometricsSucceed() = viewModelScope.launch {
+        _success.emit(Unit)
     }
 }
