@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.put.ubi.R
 import com.put.ubi.biometrics.BiometricHelper
 import com.put.ubi.databinding.CreatePasswordFragmentBinding
@@ -38,15 +39,12 @@ class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
         }
         binding.enableBiometrics.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setBiometrics(isChecked)
-            Log.d("DUPA", isChecked.toString())
         }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    Log.d("DUPA", "DUUUPA")
                     viewModel.biometricsEnabled.collect {
-                        Log.d("DUPA", "DUUUPA")
                         binding.enableBiometrics.isChecked = it
                     }
                 }
@@ -67,7 +65,7 @@ class CreatePasswordFragment : Fragment(R.layout.create_password_fragment) {
                 }
                 launch {
                     viewModel.success.collect {
-                        Toast.makeText(requireContext(), "aa", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(CreatePasswordFragmentDirections.actionCreatePasswordFragmentToFundsFragment())
                     }
                 }
                 launch {

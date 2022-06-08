@@ -9,7 +9,13 @@
         android:id="@+id/createPasswordFragment"
         android:name="com.put.ubi.createpassword.CreatePasswordFragment"
         android:label="@string/password_fragment_toolbar_titile"
-        tools:layout="@layout/create_password_fragment" />
+        tools:layout="@layout/create_password_fragment" >
+        <action
+            android:id="@+id/action_createPasswordFragment_to_fundsFragment"
+            app:destination="@id/fundsFragment"
+            app:popUpTo="@id/createPasswordFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.put.ubi.login.LoginFragment"
@@ -17,10 +23,9 @@
         tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_fundsFragment"
-            app:destination="@id/fundsFragment" />
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -29,10 +34,14 @@
         tools:layout="@layout/splash_fragment">
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_createPasswordFragment"
-            app:destination="@id/createPasswordFragment" />
+            app:destination="@id/createPasswordFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
@@ -67,7 +76,9 @@
             app:argType="com.put.ubi.model.Fund" />
         <action
             android:id="@+id/action_fundDetailsFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/fundsFragment"
+            app:popUpToInclusive="true" />
     </dialog>
     <fragment
         android:id="@+id/addPaymentFragment"
@@ -95,6 +106,8 @@
         tools:layout="@layout/fragment_import">
         <action
             android:id="@+id/action_importFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/dashboardFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
