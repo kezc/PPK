@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -84,10 +85,11 @@ class DashboardViewModel @Inject constructor(
 
             val data = dataDeferred.await()
             data.onSuccess { list ->
+                val list = list + list.last().copy(time = Date().time )
                 historicalPrices.value = list
                 valueOverTime.value = list.map { unitValueWithTime ->
                     allPayments
-                        .takeWhile { it.date.time < unitValueWithTime.time }
+                        .takeWhile { it.date.time <= unitValueWithTime.time }
                         .sumOf { it.stockSize }
                         .multiply(unitValueWithTime.value)
                 }
