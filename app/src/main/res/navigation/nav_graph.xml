@@ -8,13 +8,13 @@
     <fragment
         android:id="@+id/createPasswordFragment"
         android:name="com.put.ubi.createpassword.CreatePasswordFragment"
-        android:label="password_fragment"
+        android:label="@string/password_fragment_toolbar_titile"
         tools:layout="@layout/create_password_fragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.put.ubi.login.LoginFragment"
-        android:label="login_fragment"
-        tools:layout="@layout/login_fragment" >
+        android:label="@string/login_fragment_toolbar_titile"
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
@@ -25,8 +25,8 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.put.ubi.splash.SplashFragment"
-        android:label="splash_fragment"
-        tools:layout="@layout/splash_fragment" >
+        android:label="@string/splash_fragment_toolbar_titile"
+        tools:layout="@layout/splash_fragment">
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -37,8 +37,8 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.put.ubi.dashboard.DashboardFragment"
-        android:label="dashboard_fragment"
-        tools:layout="@layout/fragment_dashboard" >
+        android:label="@string/dashboard_fragment_toolbar_titile"
+        tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_dashboardFragment_to_addPaymentFragment"
             app:destination="@id/addPaymentFragment" />
@@ -52,8 +52,8 @@
     <fragment
         android:id="@+id/fundsFragment"
         android:name="com.put.ubi.fundslist.FundsFragment"
-        android:label="fragment_funds"
-        tools:layout="@layout/fragment_funds" >
+        android:label="@string/funds_fragment_toolbar_titile"
+        tools:layout="@layout/fragment_funds">
         <action
             android:id="@+id/action_fundsFragment_to_fundDetailsFragment"
             app:destination="@id/fundDetailsFragment" />
@@ -61,7 +61,7 @@
     <dialog
         android:id="@+id/fundDetailsFragment"
         android:name="com.put.ubi.funddetail.FundDetailsFragment"
-        android:label="FundDetailsFragment" >
+        android:label="@string/fundDetails_fragment_toolbar_titile">
         <argument
             android:name="fund"
             app:argType="com.put.ubi.model.Fund" />
@@ -72,8 +72,8 @@
     <fragment
         android:id="@+id/addPaymentFragment"
         android:name="com.put.ubi.addpayment.AddPaymentFragment"
-        android:label="fragment_add_payment"
-        tools:layout="@layout/fragment_add_payment" >
+        android:label="@string/addPayment_fragment_toolbar_titile"
+        tools:layout="@layout/fragment_add_payment">
         <argument
             android:name="type"
             app:argType="com.put.ubi.addpayment.AddPaymentType" />
@@ -86,13 +86,13 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.put.ubi.settings.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/settings_fragment_toolbar_titile"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/importFragment"
         android:name="com.put.ubi.import.ImportFragment"
-        android:label="fragment_import"
-        tools:layout="@layout/fragment_import" >
+        android:label="@string/import_fragment_toolbar_titile"
+        tools:layout="@layout/fragment_import">
         <action
             android:id="@+id/action_importFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
