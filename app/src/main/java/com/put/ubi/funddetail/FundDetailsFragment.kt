@@ -79,6 +79,7 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
         val lineData = LineData(dataSet)
         binding.chart.apply {
             data = lineData
+            description = null
             xAxis.labelCount = 5
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {

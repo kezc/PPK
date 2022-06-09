@@ -153,6 +153,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.chart.apply {
             data = lineData
             xAxis.labelCount = 5
+            description = null
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return getDate(value.toLong())
