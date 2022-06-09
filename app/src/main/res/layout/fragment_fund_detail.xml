@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Select"
+        android:text="@string/fund_detail_select"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/cancel"
         app:layout_constraintTop_toBottomOf="@+id/chart" />
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Cancel"
+        android:text="@string/fund_detail_cancel"
         app:layout_constraintEnd_toStartOf="@id/select"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart" />

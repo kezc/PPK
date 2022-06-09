@@ -78,7 +78,6 @@ class CreatePasswordViewModel @Inject constructor(
             userPreferences.setBiometrics(checked)
         } else {
             _biometricsEnabled.emit(false)
-            Log.d("DUPA", "DUPA2233")
             userPreferences.setBiometrics(false)
             biometricsError.emit(areBiometricsAvailable)
         }

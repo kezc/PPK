@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">PPK</string>
+
+    <!--  Create password / login  -->
+    <string name="password">Hasło</string>
+    <string name="confirm_password">Powtórz hasło</string>
+    <string name="create_password">Podaj hasło</string>
+    <string name="enable_biometrics">Włącz biometrię</string>
+    <string name="provide_password">Hasło powinno mieć conajmniej 4 znaki</string>
+    <string name="password_dont_match">Hasła się nie zgadzają</string>
+    <string name="field_empty">Pole jest puste</string>
+
+    <!-- Login -->
+    <string name="wrong_password">Błędne hasło</string>
+    <string name="login">Logowanie</string>
+
+    <!--  Dashboard  -->
+    <string name="money_with_currency">%s zł</string>
+
+    <!-- Add payment  -->
+    <string name="add_payment_provide_correct_value">Please provide correct value</string>
+    <string name="add_payment_unit_value">Unit value %s</string>
+
+    <!--  Toolbars  -->
+    <string name="password_fragment_toolbar_titile">Hasło</string>
+    <string name="login_fragment_toolbar_titile">Logowanie</string>
+    <string name="splash_fragment_toolbar_titile">PPK</string>
+    <string name="dashboard_fragment_toolbar_titile">PPK</string>
+    <string name="funds_fragment_toolbar_titile">Wybierz fundusz</string>
+    <string name="fundDetails_fragment_toolbar_titile">Szczegóły funduszy</string>
+    <string name="addPayment_fragment_toolbar_titile">Dodaj płatność</string>
+    <string name="settings_fragment_toolbar_titile">Ustawienia</string>
+    <string name="import_fragment_toolbar_titile">Import danych</string>
+
+    <string name="login_fingerprint_fail">Błąd autoryzacji. Proszę podać hasło</string>
+    <string name="login_fingerprint_title">Logowanie za pomocą biometrii</string>
+    <string name="login_fingeprint_subtitle">Zaloguj się odciskiem palca</string>
+    <string name="login_fingerprint_unavailable">Odcisk palca jest niedostepny</string>
+    <string name="login_fingeprint_none_enrolled">Brak dodanego odciska plca</string>
+    <string name="login_fingerprint_password">Użyj hasła</string>
+    <string name="login_fingeprint_error">Błąd odcisku palca: %s</string>
+
+    <string name="dashboard_inflation_hint">Z uwzglednieniem inflacji</string>
+    <string name="dashboard_country_payment">Wpłaty państwa</string>
+    <string name="dashboard_employer_payment">Wpłaty pracodwacy</string>
+    <string name="dashboard_own_payment">Wpłaty wasne</string>
+    <string name="dashboard_payments">Wpłaty</string>
+
+    <string name="fund_detail_select">Wybierz</string>
+    <string name="fund_detail_cancel">Anuluj</string>
+
+    <string name="import_import">Import</string>
+    <string name="import_summary">Podsumowanie</string>
+    <string name="import_own_payments">Wpłaty własne</string>
+    <string name="import_employer_payments">Wpłaty pracodwacy</string>
+    <string name="import_country_payments">Wpłaty państwa</string>
+    <string name="import_choose">Wybierz</string>
+
+    <string name="login_login">Logowanie</string>
+</resources>

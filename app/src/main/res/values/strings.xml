@@ -31,16 +31,29 @@
     <string name="addPayment_fragment_toolbar_titile">Add payment</string>
     <string name="settings_fragment_toolbar_titile">Settings</string>
     <string name="import_fragment_toolbar_titile">Import data</string>
+
     <string name="login_fingerprint_fail">Authentication failed. Please provide password</string>
-    <string name="login_fingerprint_title">Logowanie za pomocą biometrii</string>
+    <string name="login_fingerprint_title">Log in using biometry</string>
     <string name="login_fingeprint_subtitle">Log in using your biometric credential</string>
     <string name="login_fingerprint_unavailable">Fingerprint is unavailable</string>
     <string name="login_fingeprint_none_enrolled">You need to add fingerprint in settings</string>
     <string name="login_fingerprint_password">Use account password</string>
     <string name="login_fingeprint_error">Fingerprint error: %s</string>
-    <string name="dashboard_inflation_hint">Z uwzglednieniem inflacji</string>
-    <string name="dashboard_country_payment">Wpłaty państwa</string>
-    <string name="dashboard_employer_payment">Wpłaty pracodwacy</string>
-    <string name="dashboard_own_payment">Wpłaty wasne</string>
+
+    <string name="dashboard_inflation_hint">With inflation</string>
+    <string name="dashboard_country_payment">Country payments</string>
+    <string name="dashboard_employer_payment">Employer payments</string>
+    <string name="dashboard_own_payment">Own payments</string>
     <string name="dashboard_payments">Wpłaty</string>
+
+    <string name="fund_detail_select">Select</string>
+    <string name="fund_detail_cancel">Cancel</string>
+    <string name="import_import">Import</string>
+    <string name="import_summary">Summary</string>
+    <string name="import_own_payments">Own payments</string>
+    <string name="import_employer_payments">Employer payments</string>
+    <string name="import_country_payments">Country payments</string>
+    <string name="import_choose">Choose</string>
+
+    <string name="login_login">Please login</string>
 </resources>
