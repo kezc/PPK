@@ -16,9 +16,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
 
-private const val FILE_FORMAT = "DD_MM_YYYY"
+private const val FILE_FORMAT = "dd_MM_yyyy"
 
 @HiltViewModel
 class ExportViewModel @Inject constructor(
@@ -43,8 +47,9 @@ class ExportViewModel @Inject constructor(
             val payments = async(Dispatchers.IO) { paymentDao.getAll() }
             val json = gson.toJson(AllUserData(chosenFund.await(), payments.await()))
             try {
+                val formattedDate = SimpleDateFormat(FILE_FORMAT).format(Date())
                 val file =
-                    fileHelper.saveInExternalStorage("backup_$FILE_FORMAT.ppk", json.toByteArray())
+                    fileHelper.saveInExternalStorage("backup_$formattedDate.ppk", json.toByteArray())
                 _success.emit(file)
             } catch (e: Exception) {
                 _error.value = e.localizedMessage ?: ""

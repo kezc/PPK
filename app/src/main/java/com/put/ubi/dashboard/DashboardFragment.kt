@@ -2,10 +2,7 @@ package com.put.ubi.dashboard
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -36,13 +33,36 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     private val viewModel: DashboardViewModel by viewModels()
     private val binding by viewBinding(FragmentDashboardBinding::bind)
+    private var isFABOpen = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
         binding.addFab.setOnClickListener {
-            findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(AddPaymentType.Personal))
+            if (isFABOpen) {
+                closeFABMenu()
+            } else {
+                showFABMenu()
+            }
+        }
+
+        binding.addFabOwn.setOnClickListener {
+            findNavController().navigate(
+                DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(
+                    AddPaymentType.Personal
+                )
+            )
+            isFABOpen = false
+        }
+
+        binding.addFabCountry.setOnClickListener {
+            findNavController().navigate(
+                DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(
+                    AddPaymentType.Country
+                )
+            )
+            isFABOpen = false
         }
 
         lifecycleScope.launch {
@@ -88,6 +108,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             getString(R.string.money_with_currency, formatMoney(payments))
                     }
                 }
+                launch {
+                    viewModel.fundName.collect(binding.fundName::setText)
+                }
             }
         }
     }
@@ -108,24 +131,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             Entry(unitValueWithTime.time.toFloat(), value.toFloat())
 
         }
-         val historicalDataSet = LineDataSet(historicalEntries, "Stock value").apply {
-             axisDependency = YAxis.AxisDependency.LEFT
-             setDrawValues(false)
-             lineWidth = 1.5f
-             isHighlightEnabled = true
-             setDrawHighlightIndicators(false)
-             setDrawCircles(false)
-         }
-         val overTimeDataSet = LineDataSet(overTimeEntries, "Value").apply {
-             axisDependency = YAxis.AxisDependency.RIGHT
-             setColors(ColorTemplate.MATERIAL_COLORS, 1)
-             color = Color.RED
-             setDrawValues(false)
-             lineWidth = 1.5f
-             isHighlightEnabled = true
-             setDrawHighlightIndicators(false)
-             setDrawCircles(false)
-         }
+        val historicalDataSet = LineDataSet(historicalEntries, "Stock value").apply {
+            axisDependency = YAxis.AxisDependency.LEFT
+            setDrawValues(false)
+            lineWidth = 1.5f
+            isHighlightEnabled = true
+            setDrawHighlightIndicators(false)
+            setDrawCircles(false)
+        }
+        val overTimeDataSet = LineDataSet(overTimeEntries, "Value").apply {
+            axisDependency = YAxis.AxisDependency.RIGHT
+            setColors(ColorTemplate.MATERIAL_COLORS, 1)
+            color = Color.RED
+            setDrawValues(false)
+            lineWidth = 1.5f
+            isHighlightEnabled = true
+            setDrawHighlightIndicators(false)
+            setDrawCircles(false)
+        }
         val lineData = LineData(historicalDataSet, overTimeDataSet)
         binding.chart.apply {
             data = lineData
@@ -136,6 +159,22 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             }
             invalidate()
+        }
+    }
+
+    private fun showFABMenu() {
+        isFABOpen = true
+        binding.apply {
+            addFabOwn.animate().translationY(-resources.getDimension(R.dimen.standard_60)).alpha(1f)
+            addFabCountry.animate().translationY(-resources.getDimension(R.dimen.standard_120)).alpha(1f)
+        }
+    }
+
+    private fun closeFABMenu() {
+        isFABOpen = false
+        binding.apply {
+            addFabOwn.animate().translationY(0f).alpha(0f)
+            addFabCountry.animate().translationY(0f).alpha(0f)
         }
     }
 

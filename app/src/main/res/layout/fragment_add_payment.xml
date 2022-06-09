@@ -21,6 +21,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/date_barrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="country_payment_amount_text_input_layout, employer_payment_amount_text_input_layout"
+            android:orientation="horizontal"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/country_payment_amount_text_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -79,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Data"
-            app:layout_constraintTop_toBottomOf="@+id/employer_payment_amount_text_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/date_barrier">
 
             <EditText
                 android:id="@+id/date_edit_text"

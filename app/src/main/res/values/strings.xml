@@ -31,4 +31,16 @@
     <string name="addPayment_fragment_toolbar_titile">Add payment</string>
     <string name="settings_fragment_toolbar_titile">Settings</string>
     <string name="import_fragment_toolbar_titile">Import data</string>
+    <string name="login_fingerprint_fail">Authentication failed. Please provide password</string>
+    <string name="login_fingerprint_title">Logowanie za pomocą biometrii</string>
+    <string name="login_fingeprint_subtitle">Log in using your biometric credential</string>
+    <string name="login_fingerprint_unavailable">Fingerprint is unavailable</string>
+    <string name="login_fingeprint_none_enrolled">You need to add fingerprint in settings</string>
+    <string name="login_fingerprint_password">Use account password</string>
+    <string name="login_fingeprint_error">Fingerprint error: %s</string>
+    <string name="dashboard_inflation_hint">Z uwzglednieniem inflacji</string>
+    <string name="dashboard_country_payment">Wpłaty państwa</string>
+    <string name="dashboard_employer_payment">Wpłaty pracodwacy</string>
+    <string name="dashboard_own_payment">Wpłaty wasne</string>
+    <string name="dashboard_payments">Wpłaty</string>
 </resources>

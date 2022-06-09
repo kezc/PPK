@@ -2,6 +2,7 @@ package com.put.ubi.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.put.ubi.UserPreferences
 import com.put.ubi.data.FundsRepository
 import com.put.ubi.inflation.InflationProvider
 import com.put.ubi.inflation.calculateCurrentValue
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
+    userPreferences: UserPreferences,
     fundsRepository: FundsRepository,
     inflationProvider: InflationProvider,
     paymentDao: PaymentDao
@@ -46,6 +48,9 @@ class DashboardViewModel @Inject constructor(
     private val _inflationValue = MutableStateFlow<BigDecimal>(BigDecimal.ZERO)
     val inflationValue = _inflationValue.asStateFlow()
 
+    private val _fundName = MutableStateFlow("")
+    val fundName = _fundName.asStateFlow()
+
     val sumPayments =
         combine(ownPayments, countryPayments, employerPayments) { x, y, z -> x + y + z }
             .stateIn(viewModelScope, SharingStarted.Eagerly, BigDecimal.ZERO)
@@ -58,6 +63,7 @@ class DashboardViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            _fundName.value = userPreferences.getFund()?.name ?: ""
             val dataDeferred = async(Dispatchers.IO) {
                 fundsRepository.getHistoricalDataForCurrentUser()
             }

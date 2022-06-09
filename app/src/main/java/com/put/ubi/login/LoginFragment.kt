@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -37,7 +38,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                     super.onAuthenticationError(errorCode, errString)
                     Toast.makeText(
                         requireActivity().applicationContext,
-                        "Authentication error: $errString", Toast.LENGTH_SHORT
+                        getString(R.string.login_fingeprint_error, errString), Toast.LENGTH_SHORT
                     ).show()
                 }
 
@@ -52,22 +53,25 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                     super.onAuthenticationFailed()
                     Toast.makeText(
                         requireActivity().applicationContext,
-                        "Authentication failed. Please provide password",
+                        getString(R.string.login_fingerprint_fail),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Logowanie za pomocą biometrii")
-            .setSubtitle("Log in using your biometric credential")
-            .setNegativeButtonText("Use account password")
+            .setTitle(getString(R.string.login_fingerprint_title))
+            .setSubtitle(getString(R.string.login_fingeprint_subtitle))
+            .setNegativeButtonText(getString(R.string.login_fingerprint_password))
             .build()
 
         binding.confirmPasswordButton.setOnClickListener {
             viewModel.login(binding.passwordEditText.text.toString())
         }
 
+        binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
+            binding.passwordEditText.error = null
+        }
         binding.biometricsButton.setOnClickListener {
             biometricPrompt.authenticate(promptInfo)
         }
@@ -96,12 +100,12 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                             BiometricHelper.Status.AVAILABLE -> {}
                             BiometricHelper.Status.UNAVAILABLE -> Toast.makeText(
                                 requireContext(),
-                                "Fingerprint is unavailable",
+                                getString(R.string.login_fingerprint_unavailable),
                                 Toast.LENGTH_LONG
                             ).show()
                             BiometricHelper.Status.NONE_ENROLLED -> Toast.makeText(
                                 requireContext(),
-                                "You need to add fingerprint in settings",
+                                getString(R.string.login_fingeprint_none_enrolled),
                                 Toast.LENGTH_LONG
                             ).show()
                         }
