@@ -3,7 +3,9 @@ package com.put.ubi.dashboard
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +21,7 @@ import com.put.ubi.R
 import com.put.ubi.addpayment.AddPaymentType
 import com.put.ubi.databinding.FragmentDashboardBinding
 import com.put.ubi.extensions.getDate
+import com.put.ubi.importdata.ImportFragment
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +49,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 showFABMenu()
             }
         }
+
+        binding.retryButton.setOnClickListener { viewModel.loadData() }
 
         binding.addFabOwn.setOnClickListener {
             findNavController().navigate(
@@ -110,6 +115,14 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
                 launch {
                     viewModel.fundName.collect(binding.fundName::setText)
+                }
+                launch {
+                    viewModel.error.collect { binding.error.isVisible = it }
+                }
+                launch {
+                    viewModel.loading.collect {
+                        binding.loading.isVisible = it
+                    }
                 }
             }
         }

@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FundDetailViewModel @AssistedInject constructor(
-    fundsRepository: FundsRepository,
+    private val fundsRepository: FundsRepository,
     private val userPreferences: UserPreferences,
     @Assisted private val fund: Fund,
 ) : ViewModel() {
@@ -28,12 +28,20 @@ class FundDetailViewModel @AssistedInject constructor(
     private val _success = MutableSharedFlow<Unit>()
     val success = _success.asSharedFlow()
 
+    private val _error = MutableStateFlow(false)
+    val error = _error.asStateFlow()
+
     init {
+        loadData()
+    }
+
+    fun loadData() {
+        _error.value = false
         viewModelScope.launch {
             fundsRepository
                 .getHistoricalDataForUrl(fund.bankierURL)
                 .onSuccess { _historicalPrices.value = it }
-                .onFailure { /* TODO - HANDLE FAILURE */ }
+                .onFailure { _error.value = true }
         }
     }
 

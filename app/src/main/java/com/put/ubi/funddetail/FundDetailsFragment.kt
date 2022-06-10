@@ -3,6 +3,7 @@ package com.put.ubi.funddetail
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,7 +18,6 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.put.ubi.R
 import com.put.ubi.databinding.FragmentFundDetailBinding
 import com.put.ubi.extensions.getDate
-import com.put.ubi.fundslist.FundsFragmentDirections
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +45,7 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
         binding.fundName.text = args.fund.name
         binding.select.setOnClickListener { viewModel.saveFund() }
         binding.cancel.setOnClickListener { dismiss() }
+        binding.retryButton.setOnClickListener { viewModel.loadData() }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -59,6 +60,9 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
                             FundDetailsFragmentDirections.actionFundDetailsFragmentToDashboardFragment()
                         )
                     }
+                }
+                launch {
+                    viewModel.error.collect { binding.error.isVisible = it }
                 }
             }
         }

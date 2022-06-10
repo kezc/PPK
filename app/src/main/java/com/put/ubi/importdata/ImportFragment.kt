@@ -1,11 +1,10 @@
-package com.put.ubi.import
+package com.put.ubi.importdata
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
@@ -21,7 +20,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.put.ubi.R
 import com.put.ubi.databinding.FragmentImportBinding
-import com.put.ubi.login.LoginFragmentDirections
 import com.put.ubi.model.AllUserData
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -114,7 +112,7 @@ class ImportFragment : Fragment(R.layout.fragment_import) {
                 }
                 val data = json?.let { Gson().fromJson(it, AllUserData::class.java) }
                 if (data != null) {
-                    viewModel.setLoadedFile(data)
+//                    viewModel.setLoadedFile(data)
                     Log.d("Import fragment", data.toString())
                 } else {
                     Log.e("Import Fragment", "Could not load file")

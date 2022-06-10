@@ -1,4 +1,4 @@
-package com.put.ubi.import
+package com.put.ubi.importdata
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

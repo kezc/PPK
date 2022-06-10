@@ -22,10 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    userPreferences: UserPreferences,
-    fundsRepository: FundsRepository,
-    inflationProvider: InflationProvider,
-    paymentDao: PaymentDao
+    private val userPreferences: UserPreferences,
+    private val fundsRepository: FundsRepository,
+    private val inflationProvider: InflationProvider,
+    private val paymentDao: PaymentDao
 ) : ViewModel() {
 
     private val historicalPrices = MutableStateFlow(listOf<UnitValueWithTime>())
@@ -51,18 +51,31 @@ class DashboardViewModel @Inject constructor(
     private val _fundName = MutableStateFlow("")
     val fundName = _fundName.asStateFlow()
 
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.asStateFlow()
+
     val sumPayments =
         combine(ownPayments, countryPayments, employerPayments) { x, y, z -> x + y + z }
             .stateIn(viewModelScope, SharingStarted.Eagerly, BigDecimal.ZERO)
 
     private val stockSize = MutableStateFlow(BigDecimal.ZERO)
 
+    private val _error = MutableStateFlow(false)
+    val error = _error.asStateFlow()
+
     val value = combine(stockSize, historicalPrices) { stockSize, historicalPrices ->
         (historicalPrices.lastOrNull()?.value ?: BigDecimal.ZERO) * stockSize
     }.stateIn(viewModelScope, SharingStarted.Eagerly, BigDecimal.ZERO)
 
     init {
+        loadData()
+    }
+
+    fun loadData() {
         viewModelScope.launch {
+            _error.value = false
+            _loading.value = true
+
             _fundName.value = userPreferences.getFund()?.name ?: ""
             val dataDeferred = async(Dispatchers.IO) {
                 fundsRepository.getHistoricalDataForCurrentUser()
@@ -91,7 +104,7 @@ class DashboardViewModel @Inject constructor(
 
             val data = dataDeferred.await()
             data.onSuccess { list ->
-                val list = list + list.last().copy(time = Date().time )
+                val list = list + list.last().copy(time = Date().time)
                 historicalPrices.value = list
                 valueOverTime.value = list.map { unitValueWithTime ->
                     allPayments
@@ -100,10 +113,12 @@ class DashboardViewModel @Inject constructor(
                         .multiply(unitValueWithTime.value)
                 }
             }
-                .onFailure { /* TODO - HANDLE FAILURE */ }
+                .onFailure { _error.value = true}
 
             val inflation = inflationDeferred.await()
             calculateInflation(inflation, allPayments)
+
+            _loading.value = false
         }
     }
 

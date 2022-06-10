@@ -42,6 +42,11 @@
             app:destination="@id/createPasswordFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_fundsFragment"
+            app:destination="@id/fundsFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
@@ -66,6 +71,9 @@
         <action
             android:id="@+id/action_fundsFragment_to_fundDetailsFragment"
             app:destination="@id/fundDetailsFragment" />
+        <action
+            android:id="@+id/action_fundsFragment_to_importFragment"
+            app:destination="@id/importFragment" />
     </fragment>
     <dialog
         android:id="@+id/fundDetailsFragment"
@@ -101,13 +109,13 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/importFragment"
-        android:name="com.put.ubi.import.ImportFragment"
+        android:name="com.put.ubi.importdata.ImportFragment"
         android:label="@string/import_fragment_toolbar_titile"
-        tools:layout="@layout/fragment_import">
+        tools:layout="@layout/fragment_import" >
         <action
             android:id="@+id/action_importFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment"
-            app:popUpTo="@id/dashboardFragment"
+            app:popUpTo="@id/importFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

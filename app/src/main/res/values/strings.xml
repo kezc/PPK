@@ -56,4 +56,6 @@
     <string name="import_choose">Choose</string>
 
     <string name="login_login">Please login</string>
+    <string name="retry">Sprobuj jeszcze raz</string>
+    <string name="could_not_load_data">Nie udalo sie załadować danych</string>
 </resources>
