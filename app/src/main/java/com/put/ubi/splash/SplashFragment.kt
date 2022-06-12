@@ -27,7 +27,6 @@ class SplashFragment : Fragment(R.layout.splash_fragment) {
                         findNavController().navigate(
                             when (it) {
                                 LOGIN -> SplashFragmentDirections.actionSplashFragmentToLoginFragment()
-                                FUND -> SplashFragmentDirections.actionSplashFragmentToFundsFragment()
                                 CREATE_PASSWORD -> SplashFragmentDirections.actionSplashFragmentToCreatePasswordFragment()
                             }
                         )

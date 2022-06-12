@@ -7,8 +7,10 @@ import com.put.ubi.model.AllUserData
 import com.put.ubi.model.PaymentSource
 import com.put.ubi.paymentsdatabase.PaymentDao
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,11 +41,13 @@ class ImportViewModel @Inject constructor(
 
     fun choose() {
         viewModelScope.launch {
-            _userData.value?.let {
-                it.chosenFund?.let { userPreferences.setFund(it) }
-                dao.deleteAll()
-                dao.insertAll(it.payments)
-                _success.emit(Unit)
+            withContext(Dispatchers.IO) {
+                _userData.value?.let {
+                    it.chosenFund?.let { userPreferences.setFund(it) }
+                    dao.deleteAll()
+                    dao.insertAll(it.payments)
+                    _success.emit(Unit)
+                }
             }
         }
     }

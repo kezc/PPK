@@ -81,7 +81,12 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 launch { viewModel.passwordError.collect(binding.passwordTextInputLayout::setError) }
                 launch {
                     viewModel.success.collect {
-                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDashboardFragment())
+                        findNavController().navigate(
+                            when (it) {
+                                LoginViewModel.Destination.FUND -> LoginFragmentDirections.actionLoginFragmentToFundsFragment()
+                                LoginViewModel.Destination.DASHBOARD -> LoginFragmentDirections.actionLoginFragmentToDashboardFragment()
+                            }
+                        )
                     }
                 }
                 launch {

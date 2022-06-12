@@ -44,7 +44,7 @@
     <string name="dashboard_country_payment">Country payments</string>
     <string name="dashboard_employer_payment">Employer payments</string>
     <string name="dashboard_own_payment">Own payments</string>
-    <string name="dashboard_payments">Wpłaty</string>
+    <string name="dashboard_payments">Total payments</string>
 
     <string name="fund_detail_select">Select</string>
     <string name="fund_detail_cancel">Cancel</string>
@@ -56,6 +56,10 @@
     <string name="import_choose">Choose</string>
 
     <string name="login_login">Please login</string>
-    <string name="retry">Sprobuj jeszcze raz</string>
-    <string name="could_not_load_data">Nie udalo sie załadować danych</string>
+    <string name="retry">Retry</string>
+    <string name="could_not_load_data">Could not load data</string>
+    <string name="dashboard_amount">Total amount</string>
+
+    <string name="settings_export_hint">Create an back-up</string>
+    <string name="settings_export_button">Export data</string>
 </resources>

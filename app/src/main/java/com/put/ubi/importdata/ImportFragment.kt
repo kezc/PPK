@@ -46,7 +46,7 @@ class ImportFragment : Fragment(R.layout.fragment_import) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.fund.collect { fund ->
-                        binding.ownPaymentsAmount.text = fund ?: ""
+                        binding.chosenFund.text = fund ?: ""
                         binding.summaryGroup.isVisible = fund != null
                     }
                 }
@@ -112,7 +112,7 @@ class ImportFragment : Fragment(R.layout.fragment_import) {
                 }
                 val data = json?.let { Gson().fromJson(it, AllUserData::class.java) }
                 if (data != null) {
-//                    viewModel.setLoadedFile(data)
+                    viewModel.setLoadedFile(data)
                     Log.d("Import fragment", data.toString())
                 } else {
                     Log.e("Import Fragment", "Could not load file")

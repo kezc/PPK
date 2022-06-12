@@ -18,7 +18,7 @@
         android:id="@+id/summary_group"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:constraint_referenced_ids="choose, summary, chosen_fund, country_payments_hint, employer_payments_hint, own_payments_hint, employer_payments_amount, country_payments_amount, own_payments_amount"
         tools:visibility="visible" />
 
@@ -68,7 +68,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toBottomOf="@id/chosen_fund"
-        tools:text="1 100,00 zł" />
+        android:text="1 100,00 zł" />
 
 
     <TextView

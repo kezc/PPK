@@ -18,8 +18,7 @@ class SplashViewModel @Inject constructor(userPreferences: UserPreferences) : Vi
     init {
         viewModelScope.launch {
             val destination = when {
-                userPreferences.getFund() != null -> Destination.LOGIN
-                userPreferences.getPassword() != null -> Destination.FUND
+                userPreferences.getPassword() != null -> Destination.LOGIN
                 else -> Destination.CREATE_PASSWORD
             }
             _destination.emit(destination)
@@ -27,6 +26,6 @@ class SplashViewModel @Inject constructor(userPreferences: UserPreferences) : Vi
     }
 
     enum class Destination {
-        CREATE_PASSWORD, LOGIN, FUND
+        CREATE_PASSWORD, LOGIN
     }
 }

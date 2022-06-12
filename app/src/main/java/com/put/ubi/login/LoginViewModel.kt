@@ -9,6 +9,7 @@ import com.put.ubi.biometrics.BiometricHelper
 import com.put.ubi.util.sha512
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -23,7 +24,7 @@ class LoginViewModel @Inject constructor(
     private val userPreferences: UserPreferences,
     private val biometricHelper: BiometricHelper
 ) : ViewModel() {
-    private val _success = MutableSharedFlow<Unit>()
+    private val _success = MutableSharedFlow<Destination>()
     val success = _success.asSharedFlow()
     private val _passwordError = MutableStateFlow("")
     val passwordError = _passwordError.asStateFlow()
@@ -49,13 +50,21 @@ class LoginViewModel @Inject constructor(
         }
         val password = userPreferences.getPassword()
         if (hash == password) {
-            _success.emit(Unit)
+            _success.emit(getDestination())
         } else {
             _passwordError.value = resources.getString(R.string.wrong_password)
         }
     }
 
     fun biometricsSucceed() = viewModelScope.launch {
-        _success.emit(Unit)
+        _success.emit(getDestination())
+    }
+
+    private suspend fun getDestination(): Destination {
+        return if (userPreferences.getFund() == null) Destination.FUND
+        else Destination.DASHBOARD
+    }
+    enum class Destination {
+        FUND, DASHBOARD
     }
 }
