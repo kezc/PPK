@@ -87,13 +87,6 @@
                 app:layout_constraintTop_toBottomOf="@id/balance_hint"
                 tools:text="5 550,34 zł" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="country_payments_hint, employer_payments_hint, inflation_hint, own_payments_hint, payments_hint" />
-
             <TextView
                 android:id="@+id/payments_hint"
                 android:layout_width="wrap_content"
@@ -112,7 +105,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="64dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/balance_amount"
                 tools:text="1 100,00 zł" />
 
@@ -134,7 +127,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payments_hint"
                 tools:text="1 100,00 zł" />
 
@@ -157,7 +150,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/own_payments_amount"
                 tools:text="1 100,00 zł" />
 
@@ -180,7 +173,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/employer_payments_amount"
                 tools:text="1 100,00 zł" />
 
@@ -203,7 +196,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/country_payments_amount"
                 tools:text="1 100,00 zł" />
 
