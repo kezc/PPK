@@ -159,7 +159,7 @@ class AddPaymentFragment : Fragment(R.layout.fragment_add_payment) {
                 }
                 launch {
                     viewModel.success.collect {
-                        findNavController().navigate(AddPaymentFragmentDirections.actionAddPaymentFragmentToDashboardFragment())
+                        findNavController().navigate(AddPaymentFragmentDirections.actionAddPaymentFragmentToMainTabsFragment())
                     }
                 }
             }

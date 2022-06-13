@@ -39,7 +39,7 @@ class HistoryViewModel @Inject constructor(
         }
         val allPaymentsListDeferred = async(Dispatchers.IO) { paymentDao.getAll() }
         val stockPrices = stockPricesDeferred.await()
-        val allPayments = allPaymentsListDeferred.await()
+        val allPayments = allPaymentsListDeferred.await().sortedBy { -it.date.time }
         stockPrices.onSuccess { list ->
             val fixedStockPrices = list + list.last().copy(time = Date().time)
             _data.value = allPayments.map {

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.createPasswordFragment,
                 R.id.loginFragment,
                 R.id.fundsFragment,
-                R.id.dashboardFragment,
+                R.id.mainTabsFragment,
                 R.id.splashFragment
             )
         )

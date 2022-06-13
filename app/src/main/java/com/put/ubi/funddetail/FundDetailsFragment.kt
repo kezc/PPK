@@ -58,7 +58,7 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
                 launch {
                     viewModel.success.collect {
                         requireParentFragment().findNavController().navigate(
-                            FundDetailsFragmentDirections.actionFundDetailsFragmentToDashboardFragment()
+                            FundDetailsFragmentDirections.actionFundDetailsFragmentToMainTabsFragment()
                         )
                     }
                 }

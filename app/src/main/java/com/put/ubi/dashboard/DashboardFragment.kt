@@ -6,7 +6,6 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +21,7 @@ import com.put.ubi.R
 import com.put.ubi.addpayment.AddPaymentType
 import com.put.ubi.databinding.FragmentDashboardBinding
 import com.put.ubi.extensions.getDate
-import com.put.ubi.importdata.ImportFragment
+import com.put.ubi.maintabsfragment.MainTabsFragmentDirections
 import com.put.ubi.model.UnitValueWithTime
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +40,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
         binding.addFab.setOnClickListener {
             if (isFABOpen) {
@@ -54,8 +52,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.retryButton.setOnClickListener { viewModel.loadData() }
 
         binding.addFabOwn.setOnClickListener {
-            findNavController().navigate(
-                DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(
+            requireParentFragment().findNavController().navigate(
+                MainTabsFragmentDirections.actionMainTabsFragmentToAddPaymentFragment(
                     AddPaymentType.Personal
                 )
             )
@@ -63,8 +61,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
         binding.addFabCountry.setOnClickListener {
-            findNavController().navigate(
-                DashboardFragmentDirections.actionDashboardFragmentToAddPaymentFragment(
+            requireParentFragment().findNavController().navigate(
+                MainTabsFragmentDirections.actionMainTabsFragmentToAddPaymentFragment(
                     AddPaymentType.Country
                 )
             )
@@ -195,22 +193,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         binding.apply {
             addFabOwn.animate().translationY(0f).alpha(0f)
             addFabCountry.animate().translationY(0f).alpha(0f)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.dashboard_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.settings -> {
-                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToHistoryFragment())
-//                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment())
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }

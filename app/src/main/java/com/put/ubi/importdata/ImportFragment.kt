@@ -67,7 +67,7 @@ class ImportFragment : Fragment(R.layout.fragment_import) {
                 }
                 launch {
                     viewModel.success.collect {
-                        findNavController().navigate(ImportFragmentDirections.actionImportFragmentToDashboardFragment())
+                        findNavController().navigate(ImportFragmentDirections.actionImportFragmentToMainTabsFragment())
                     }
                 }
             }

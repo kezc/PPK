@@ -84,7 +84,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                         findNavController().navigate(
                             when (it) {
                                 LoginViewModel.Destination.FUND -> LoginFragmentDirections.actionLoginFragmentToFundsFragment()
-                                LoginViewModel.Destination.DASHBOARD -> LoginFragmentDirections.actionLoginFragmentToDashboardFragment()
+                                LoginViewModel.Destination.DASHBOARD -> LoginFragmentDirections.actionLoginFragmentToMainTabsFragment()
                             }
                         )
                     }

@@ -67,7 +67,9 @@
     <string name="history_company">Firmowa</string>
     <string name="history_country">Państwowa</string>
     <string name="item_history_price">Kwota</string>
-    <string name="item_history_source">Zrodlo</string>
+    <string name="item_history_source">"Zródło wpłaty"</string>
     <string name="item_history_date">Data</string>
     <string name="item_history_amount">Ilosc</string>
+    <string name="main_tabs_dashboard">Wpłaty</string>
+    <string name="main_tabs_history">Historia</string>
 </resources>
