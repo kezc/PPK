@@ -62,4 +62,12 @@
 
     <string name="settings_export_hint">Create an back-up</string>
     <string name="settings_export_button">Export data</string>
+
+    <string name="history_individual">Individual</string>
+    <string name="history_company">Company</string>
+    <string name="history_country">Country</string>
+    <string name="item_history_price">Price</string>
+    <string name="item_history_source">Source</string>
+    <string name="item_history_date">Date</string>
+    <string name="item_history_amount">Amount</string>
 </resources>

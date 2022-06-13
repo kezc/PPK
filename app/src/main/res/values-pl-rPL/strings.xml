@@ -63,4 +63,11 @@
 
     <string name="settings_export_hint">Zrób kopię zapasową danych</string>
     <string name="settings_export_button">Eksportuj dane</string>
+    <string name="history_individual">Indywidualna</string>
+    <string name="history_company">Firmowa</string>
+    <string name="history_country">Państwowa</string>
+    <string name="item_history_price">Kwota</string>
+    <string name="item_history_source">Zrodlo</string>
+    <string name="item_history_date">Data</string>
+    <string name="item_history_amount">Ilosc</string>
 </resources>

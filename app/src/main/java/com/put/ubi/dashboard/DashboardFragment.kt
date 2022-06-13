@@ -206,7 +206,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings -> {
-                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment())
+                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToHistoryFragment())
+//                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)
