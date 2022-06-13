@@ -44,6 +44,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun updateText() {
+        _passwordError.value = ""
+    }
+
     fun login(enteredPassword: String) = viewModelScope.launch {
         val hash = withContext(Dispatchers.IO) {
             sha512(enteredPassword)

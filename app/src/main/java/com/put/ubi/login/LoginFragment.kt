@@ -70,7 +70,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         }
 
         binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
-            binding.passwordEditText.error = null
+            viewModel.updateText()
         }
         binding.biometricsButton.setOnClickListener {
             biometricPrompt.authenticate(promptInfo)
