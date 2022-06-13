@@ -3,6 +3,7 @@ package com.put.ubi.funddetail
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -84,7 +85,12 @@ class FundDetailsFragment : DialogFragment(R.layout.fragment_fund_detail) {
         binding.chart.apply {
             data = lineData
             description = null
+            val textColor = ContextCompat.getColor(requireContext(), R.color.text)
+            legend.textColor = textColor
             xAxis.labelCount = 5
+            xAxis.textColor = textColor
+            axisLeft.textColor = textColor
+            axisRight.textColor = textColor
             xAxis.valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return getDate(value.toLong())
